@@ -1,0 +1,35 @@
+{
+  "name": "vmoda-ios",
+  "version": "1.0.0",
+  "description": "VModa Capacitor iOS wrapper for the Azure-hosted MVC app.",
+  "main": "index.js",
+  "scripts": {
+    "make:assets": "node scripts/create-assets.mjs",
+    "sync:cap-assets": "node scripts/copy-cap-assets.mjs",
+    "cap:sync": "npm run sync:cap-assets && npx cap sync ios",
+    "cap:open": "npx cap open ios"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor-firebase/messaging": "^8.2.0",
+    "@capacitor/app": "^8.1.0",
+    "@capacitor/camera": "^8.2.0",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.3.1",
+    "@capacitor/keyboard": "^8.0.3",
+    "@capacitor/push-notifications": "^8.0.3",
+    "@capacitor/share": "^8.0.1",
+    "@capacitor/splash-screen": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.2",
+    "firebase": "^12.12.1"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "sharp": "^0.34.5"
+  }
+}

@@ -1,0 +1,222 @@
+html.is-native-app {
+  -webkit-tap-highlight-color: transparent;
+  color-scheme: light;
+}
+
+html.is-native-app body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  overscroll-behavior-y: contain;
+}
+
+html.is-native-app .app-header {
+  display: none !important;
+}
+
+html.is-native-app .page > .container {
+  max-width: 100%;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+html.is-native-app button,
+html.is-native-app .btn,
+html.is-native-app a.btn,
+html.is-native-app [role="button"] {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+html.is-native-app input,
+html.is-native-app textarea,
+html.is-native-app select {
+  font-size: 16px;
+}
+
+.vmoda-native-file-original {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.vmoda-native-file-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.vmoda-native-camera-btn,
+.vmoda-native-share-btn {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.vmoda-native-tabbar {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: calc(8px + env(safe-area-inset-bottom));
+  z-index: 2147483000;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: end;
+  gap: 4px;
+  padding: 8px 8px 10px;
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 30px;
+  background: rgba(20, 20, 24, .72);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
+}
+
+.vmoda-native-tab {
+  position: relative;
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 20px;
+  color: rgba(255, 255, 255, .72);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+.vmoda-native-tab svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.vmoda-native-tab.is-active {
+  color: #fff;
+  background: rgba(255, 255, 255, .14);
+}
+
+.vmoda-native-tab.is-featured {
+  transform: translateY(-12px);
+}
+
+.vmoda-native-tab.is-featured .vmoda-native-tab-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #111;
+  background: linear-gradient(135deg, #fff, #f1d7aa);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .28);
+}
+
+.vmoda-native-tab-badge {
+  position: absolute;
+  min-width: 18px;
+  height: 18px;
+  top: 3px;
+  right: calc(50% - 23px);
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  box-shadow: 0 0 0 2px rgba(20, 20, 24, .9);
+}
+
+.vmoda-native-notification {
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top));
+  left: 50%;
+  z-index: 2147483001;
+  width: min(92vw, 420px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 13px 18px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  text-align: left;
+  background: rgba(18, 18, 22, .9);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .32);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  transform: translate(-50%, -120%) scale(.96);
+  transition: transform 420ms cubic-bezier(.2, 1.35, .25, 1), opacity 220ms ease;
+}
+
+.vmoda-native-notification.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.vmoda-native-notification strong {
+  font-size: 13px;
+}
+
+.vmoda-native-notification span {
+  color: rgba(255, 255, 255, .76);
+  font-size: 12px;
+}
+
+body.page-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+body.page-enter.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: transform 220ms ease-out, opacity 220ms ease-out;
+}
+
+body.page-exit {
+  opacity: .86;
+  transform: translateX(-8px);
+  transition: transform 160ms ease-in, opacity 160ms ease-in;
+}
+
+.vmoda-native-pull-refresh {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) - 52px);
+  left: 50%;
+  z-index: 2147482999;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(20, 20, 24, .86);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
+  opacity: 0;
+  transform: translate(-50%, -52px);
+  transition: opacity 160ms ease, transform 180ms ease;
+}
+
+.vmoda-native-pull-refresh span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .35);
+  border-top-color: #fff;
+  animation: vmoda-spin 800ms linear infinite;
+}
+
+.vmoda-native-pull-refresh.is-ready {
+  background: rgba(11, 132, 255, .94);
+}
+
+@keyframes vmoda-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
