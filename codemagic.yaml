@@ -4,6 +4,9 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
 
+    integrations:
+      app_store_connect: VModa App Store Connect
+
     environment:
       ios_signing:
         distribution_type: app_store
@@ -37,7 +40,5 @@ workflows:
 
     publishing:
       app_store_connect:
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        auth: integration
         submit_to_testflight: true
