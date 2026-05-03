@@ -1,6 +1,6 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
-const serverUrl = 'https://tu-dominio.azurecontainerapps.io';
+const serverUrl = 'https://vmoda.uy';
 const appBoundDomain = new URL(serverUrl).hostname;
 
 const config: CapacitorConfig = {
