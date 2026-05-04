@@ -7,7 +7,6 @@ workflows:
     environment:
       node: 22
       xcode: latest
-      cocoapods: default
 
     scripts:
       - name: Install dependencies
@@ -19,10 +18,11 @@ workflows:
       - name: Capacitor sync
         script: npx cap sync ios
 
-      - name: Install CocoaPods
+      - name: Resolve Swift Packages
         script: |
-          cd ios/App
-          pod install
+          xcodebuild -resolvePackageDependencies \
+            -project ios/App/App.xcodeproj \
+            -scheme App
 
       - name: Validate Apple signing environment
         script: |
@@ -49,7 +49,7 @@ workflows:
       - name: Build iOS
         script: |
           xcode-project build-ipa \
-            --workspace ios/App/App.xcworkspace \
+            --project ios/App/App.xcodeproj \
             --scheme App \
             --archive-flags="-destination 'generic/platform=iOS'"
 
