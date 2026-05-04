@@ -13,6 +13,9 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
     "@capacitor-firebase/messaging": "^8.2.0",
     "@capacitor/app": "^8.1.0",

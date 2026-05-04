@@ -5,13 +5,16 @@ workflows:
     instance_type: mac_mini_m2
 
     environment:
-      node: 20
+      node: 22
       xcode: latest
       cocoapods: default
 
     scripts:
       - name: Install dependencies
-        script: npm install
+        script: |
+          node --version
+          npm --version
+          npm ci
 
       - name: Capacitor sync
         script: npx cap sync ios
