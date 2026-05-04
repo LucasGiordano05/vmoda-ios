@@ -5,9 +5,6 @@ workflows:
     instance_type: mac_mini_m2
 
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.vmoda.app
       node: 20
       xcode: latest
       cocoapods: default
@@ -24,20 +21,34 @@ workflows:
           cd ios/App
           pod install
 
+      - name: Validate Apple signing environment
+        script: |
+          set -e
+          : "${APP_STORE_CONNECT_ISSUER_ID:?Missing APP_STORE_CONNECT_ISSUER_ID}"
+          : "${APP_STORE_CONNECT_KEY_IDENTIFIER:?Missing APP_STORE_CONNECT_KEY_IDENTIFIER}"
+          : "${APP_STORE_CONNECT_PRIVATE_KEY:?Missing APP_STORE_CONNECT_PRIVATE_KEY}"
+          : "${CERTIFICATE_PRIVATE_KEY:?Missing CERTIFICATE_PRIVATE_KEY}"
+
       - name: Set up code signing
         script: |
           keychain initialize
           app-store-connect fetch-signing-files com.vmoda.app \
             --type IOS_APP_STORE \
-            --create
+            --create \
+            --delete-stale-profiles \
+            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID" \
+            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            --private-key @env:APP_STORE_CONNECT_PRIVATE_KEY \
+            --certificate-key @env:CERTIFICATE_PRIVATE_KEY
           keychain add-certificates
-          xcode-project use-profiles
+          xcode-project use-profiles --project ios/App/App.xcodeproj
 
       - name: Build iOS
         script: |
           xcode-project build-ipa \
             --workspace ios/App/App.xcworkspace \
-            --scheme App
+            --scheme App \
+            --archive-flags="-destination 'generic/platform=iOS'"
 
     artifacts:
       - build/ios/ipa/*.ipa
