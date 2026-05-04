@@ -46,7 +46,6 @@ workflows:
             --private-key @env:APP_STORE_CONNECT_PRIVATE_KEY \
             --certificate-key @env:CERTIFICATE_PRIVATE_KEY
           keychain add-certificates
-          xcode-project use-profiles --project ios/App/App.xcodeproj
 
           PROFILE_PATH=""
           for candidate in "$HOME"/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
@@ -81,6 +80,14 @@ workflows:
           echo "Using provisioning profile: $PROFILE_NAME ($PROFILE_UUID)"
           echo "aps-environment: $APS_ENVIRONMENT"
           echo "VMODA_PROFILE_SPECIFIER=$PROFILE_NAME" >> "$CM_ENV"
+
+          xcode-project use-profiles \
+            --project ios/App/App.xcodeproj \
+            --profile "$PROFILE_PATH"
+
+          echo "Effective signing build settings:"
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -showBuildSettings \
+            | grep -E "DEVELOPMENT_TEAM|PRODUCT_BUNDLE_IDENTIFIER|CODE_SIGN_STYLE|CODE_SIGN_IDENTITY|PROVISIONING_PROFILE_SPECIFIER|CODE_SIGN_ENTITLEMENTS" || true
 
       - name: Build iOS
         script: |
