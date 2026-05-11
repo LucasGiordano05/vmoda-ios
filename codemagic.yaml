@@ -46,8 +46,45 @@ workflows:
             --scheme App \
             --archive-flags="-destination 'generic/platform=iOS'"
 
+      - name: Verify IPA contents
+        script: |
+          set -e
+          IPA_PATH="$(find build/ios/ipa -name "*.ipa" -print -quit)"
+          if [ -z "$IPA_PATH" ]; then
+            echo "No IPA found after build."
+            exit 1
+          fi
+
+          rm -rf /tmp/vmoda_ipa_check
+          mkdir -p /tmp/vmoda_ipa_check
+          unzip -q "$IPA_PATH" -d /tmp/vmoda_ipa_check
+          APP_PATH="$(find /tmp/vmoda_ipa_check/Payload -maxdepth 2 -name "*.app" -type d -print -quit)"
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app bundle found inside IPA."
+            exit 1
+          fi
+
+          echo "Built app bundle: $APP_PATH"
+          echo "Bundle version:"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP_PATH/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$APP_PATH/Info.plist"
+
+          if [ ! -f "$APP_PATH/GoogleService-Info.plist" ]; then
+            echo "GoogleService-Info.plist is missing from the final .app bundle."
+            exit 1
+          fi
+
+          FIREBASE_BUNDLE_ID="$(/usr/libexec/PlistBuddy -c "Print :BUNDLE_ID" "$APP_PATH/GoogleService-Info.plist")"
+          if [ "$FIREBASE_BUNDLE_ID" != "com.vmoda.app" ]; then
+            echo "GoogleService-Info.plist BUNDLE_ID is '$FIREBASE_BUNDLE_ID', expected 'com.vmoda.app'."
+            exit 1
+          fi
+
+          echo "IPA verification passed: GoogleService-Info.plist is bundled and matches com.vmoda.app."
+
     artifacts:
       - build/ios/ipa/*.ipa
+      - build/ios/xcarchive/*.xcarchive/dSYMs/**/*.dSYM
       - /tmp/xcodebuild_logs/*.log
 
     publishing:
