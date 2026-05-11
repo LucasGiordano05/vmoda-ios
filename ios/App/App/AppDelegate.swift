@@ -8,8 +8,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
+        if FirebaseApp.app() == nil,
+           let firebaseConfigPath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist"),
+           let firebaseOptions = FirebaseOptions(contentsOfFile: firebaseConfigPath) {
+            FirebaseApp.configure(options: firebaseOptions)
         }
 
         return true
