@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m2
 
     integrations:
-      app_store_connect: vmoda_app_store_connect
+      app_store_connect: Codemagic
 
     environment:
       groups:
